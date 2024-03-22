@@ -1,3 +1,5 @@
+import JsBarcode from 'jsbarcode';
+
 function collateData(data, searchData) {
 	// searchData = searchData.replace(/\n/g, '');
 	searchData = searchData.split('\n');
@@ -18,20 +20,15 @@ function collateData(data, searchData) {
 					prodSalePrice: prodSalePrice,
 				});
 			}
-			// else {
-			// 	console.log(
-			// 		'Found No matching item',
-			// 		prodBarCode,
-			// 		searchData,
-			// 		typeof prodBarCode,
-			// 		typeof searchData[i]
-			// 	);
-			// }
-
-			// break;
 		}
 	}
-	return collatedData;
+	try {
+		JsBarcode('#barcode', 'Hi!');
+	} catch (e) {
+		console.log(e);
+
+		return collatedData;
+	}
 }
 
 export function ResultComponent({ data, searchData }) {
@@ -39,8 +36,10 @@ export function ResultComponent({ data, searchData }) {
 
 	return (
 		<div>
-			<h1>Results</h1>
+			<h1>Grocerhut LabelGenerator</h1>
 			<p>{searchData}</p>
+			<svg id='barcode'></svg>
+
 			<div>{JSON.stringify(collatedData)}</div>
 		</div>
 	);
